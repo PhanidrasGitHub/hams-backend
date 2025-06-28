@@ -1,0 +1,99 @@
+### Register a Hospital
+POST http://localhost:3000/hospitals
+Content-Type: application/json
+
+{
+  "name": "Green Valley Health Centre",
+  "location": "Bangalore",
+  "admin_id": 2
+}
+### Add Department to Hospital
+POST http://localhost:3000/departments
+Content-Type: application/json
+
+{
+  "hospital_id": 2,
+  "name": "Cardiology"
+}
+
+### Register User (Admin)POST http://localhost:3000/users
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Dr. Ganesh Rao",
+  "email": "ganesh.rao@hospital.com",
+  "password": "securepass123",
+  "role": "doctor",
+  "dob": "1975-12-05",
+  "gender": "Male",
+  "unique_id": "3"
+}
+
+
+###
+
+### Register Doctor Profile
+POST http://localhost:3000/doctor-profiles
+Content-Type: application/json
+
+{
+  "doctor_id": 2,
+  "qualifications": "MBBS, MS (Ortho)",
+  "experience_years": 12
+}
+
+### Add Specialization for Doctor
+POST http://localhost:3000/specializations
+Content-Type: application/json
+
+{
+  "doctor_id": 1,
+  "specialization": "Orthopedics"
+}
+
+### Add Doctor Availability
+POST http://localhost:3000/availability
+Content-Type: application/json
+
+{
+  "doctor_id": 1,
+  "hospital_id": 1,
+  "start_time": "2025-06-30T10:00:00",
+  "end_time": "2025-06-30T11:00:00",
+  "consultation_fee": 500
+}
+
+### Book Appointment
+POST http://localhost:3000/appointments
+Content-Type: application/json
+
+{
+  "patient_id": 3,
+  "doctor_id": 1,
+  "hospital_id": 1,
+  "slot_id": 1,
+  "consultation_fee": 500
+}
+
+### Register a Patient
+POST http://localhost:3000/patients 
+Content-Type: application/json
+
+    {
+  "name": "Aarav Verma",
+  "email": "aarav.verma@example.com",
+  "password": "pass1234",
+  "role": "patient",
+  "dob": "1992-05-14",
+  "gender": "Male",
+  "unique_id": "AADHAR1234567890"
+}
+#
+GET http://localhost:3000/patients/1/history
+
+#### Get Doctor Dashboard
+
+GET http://localhost:3000/doctors/1/dashboard
+#### Get Hospital Dashboard
+GET http://localhost:3000/hospitals/:1/dashboard
