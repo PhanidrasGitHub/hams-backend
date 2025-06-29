@@ -21,13 +21,14 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Dr. Ganesh Rao",
-  "email": "ganesh.rao@hospital.com",
+  "id" : 1,
+  "name": "Dr. Priya Sharma",
+  "email": "priya.sharma@hospital.com",
   "password": "securepass123",
   "role": "doctor",
   "dob": "1975-12-05",
   "gender": "Male",
-  "unique_id": "3"
+  "unique_id": "5"
 }
 
 
@@ -38,8 +39,8 @@ POST http://localhost:3000/doctor-profiles
 Content-Type: application/json
 
 {
-  "doctor_id": 2,
-  "qualifications": "MBBS, MS (Ortho)",
+  "doctor_id": 5,
+  "qualifications": "Orthopedics",
   "experience_years": 12
 }
 
@@ -70,7 +71,7 @@ Content-Type: application/json
 
 {
   "patient_id": 3,
-  "doctor_id": 1,
+  "doctor_id": 5,
   "hospital_id": 1,
   "slot_id": 1,
   "consultation_fee": 500
@@ -80,7 +81,7 @@ Content-Type: application/json
 POST http://localhost:3000/patients 
 Content-Type: application/json
 
-    {
+ {
   "name": "Aarav Verma",
   "email": "aarav.verma@example.com",
   "password": "pass1234",
@@ -89,11 +90,29 @@ Content-Type: application/json
   "gender": "Male",
   "unique_id": "AADHAR1234567890"
 }
-#
+
+### Add Doctor Availability
+POST http://localhost:3000/availability
+Content-Type: application/json
+
+{
+  "doctor_id": 2,
+  "hospital_id": 1,
+  "start_time": "2025-06-30T10:00:00",
+  "end_time": "2025-06-30T11:00:00",
+  "consultation_fee": 600
+}
+#### Get Doctor Profile
+
+GET http://localhost:3000/doctors?specilization="Orthopedics"&hospital_id=1
+
+#### Add Medical History for Patient
 GET http://localhost:3000/patients/1/history
 
 #### Get Doctor Dashboard
 
 GET http://localhost:3000/doctors/1/dashboard
 #### Get Hospital Dashboard
-GET http://localhost:3000/hospitals/:1/dashboard
+
+
+GET http://localhost:3000/hospitals/1/dashboard

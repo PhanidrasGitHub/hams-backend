@@ -19,17 +19,18 @@ const intializedbAndServer = async () => {
       console.log('Server Running.....')
     })
   } catch (e) {
-    console.log(`Error: ${e.message}`)
-    process.exit(1)
+    console.log(Error(`'DB Error', ${e.message}`))
+    // Exit the process with a failure code})
+   process.on('unhandledRejection', error => {
+  console.error('Unhandled Rejection:', error);
+  process.exit(1); // Exit with failure code
+});
+
   }
 }
 intializedbAndServer()
 // API to register a new hospital
 // POST /hospitals
-
-
-
-
 
 app.post('/hospitals', async (req, res) => {
   const { name, location, admin_id } = req.body;
@@ -104,7 +105,7 @@ app.post('/doctor-profiles', async (req, res) => {
   }
 
   try {
-    const doctor = await db.get(`SELECT * FROM users WHERE id = ? AND role = 'doctor'`, [doctor_id]);
+    const doctor = await db.get(`SELECT * FROM users WHERE unique_id = ? AND role = 'doctor'`, [doctor_id]);
 
     if (!doctor) {
       return res.status(404).json({ error: 'Doctor not found or not registered as doctor' });
@@ -138,7 +139,7 @@ app.post('/specializations', async (req, res) => {
 
   try {
     // Check if doctor_profile exists
-    const profile = await db.get(`SELECT * FROM doctor_profiles WHERE id = ?`, [doctor_id]);
+    const profile = await db.get(`SELECT * FROM doctor_profiles WHERE doctor_id = ?`, [doctor_id]);
     if (!profile) {
       return res.status(404).json({ error: 'Doctor profile not found' });
     }
@@ -250,13 +251,16 @@ app.post('/patients', async (req, res) => {
 });
 // API to get all doctors with optional filters
 // GET /doctors?specialization=cardiology&hospital_id=1................................................
+
+
+
 app.get('/doctors', async (req, res) => {
   const { specialization, hospital_id } = req.query;
   try {
     let query = `SELECT u.id, u.name, d.qualifications, s.specialization
                  FROM users u
                  JOIN doctor_profiles d ON u.id = d.doctor_id
-                 JOIN specializations s ON s.doctor_id = d.id
+                 JOIN specializations s ON s.doctor_id = d.doctor_id
                  WHERE u.role = 'doctor'`;
 
     const conditions = [];
@@ -284,7 +288,7 @@ app.get('/doctors', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-// API to get all hospitals with optional filters
+// API to get all hospitals with optionalgu filters
 // GET /hospitals?location=city1&specialization=cardiology................................................
 app.get('/patients/:patientId/history', async (req, res) => {
   const { patientId } = req.params;
@@ -411,6 +415,4 @@ app.get('/hospitals/:hospitalId/dashboard', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-
-
 
